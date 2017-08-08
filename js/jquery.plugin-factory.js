@@ -120,6 +120,16 @@
 		}
 	};
 	
+	var _extendDefaults = function( name, options ) {
+		$.each(_objects, function(i, obj){
+			if (obj.extendz === name) {
+				_extendDefaults(obj.name, options);
+				//console.log(name + ': ' + obj.name + ' -> ' + obj.extendz);
+			}
+		});
+		_objects[name].defaults = $.extend(true, { }, _objects[name].defaults, options);
+	};
+	
 	$.plugin = function( name, object, extend ) {
 	
 		object.name = name;
@@ -157,7 +167,7 @@
 		
 		$[name] = function() { return true; };
 		$[name].setDefaults = function(options) {
-			_objects[name].defaults = $.extend(true, { }, _objects[name].defaults, options);
+			_extendDefaults(name, options);
 		};
 	};
 	
