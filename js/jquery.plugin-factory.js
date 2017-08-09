@@ -68,10 +68,10 @@
 		if (extend && _builder[extend]) {
 			var bbl = _builder[extend];
 			bbl['metadata'].forEach(function(elem) {
-				if (!buildIT['metadata'].includes(elem)) { buildIT['metadata'].push(elem); }
+				if (!(buildIT['metadata'].indexOf(elem) > -1)) { buildIT['metadata'].push(elem); }
 			});
 			bbl['inits'].forEach(function(elem) {
-				if (!buildIT['inits'].includes(elem)) { buildIT['inits'].push(elem); }
+				if (!(buildIT['inits'].indexOf(elem) > -1)) { buildIT['inits'].push(elem); }
 			});
 		}
 		return buildIT;
