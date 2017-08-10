@@ -45,6 +45,7 @@
 	'use strict'
 	
 	var _objects = {};
+	var _p_defs = {};
 	var _builder = {};
 	
 	if ( typeof Object.create !== "function" ) {
@@ -123,12 +124,13 @@
 	};
 	
 	var _extendDefaults = function( name, options ) {
-		
-		var _extendInIt = function( parent, name ) {
+	
+		_p_defs[name] = $.extend(true, {}, _p_defs[name], options);
+		var _extendInIt = function( parent, nameit ) {
 
-			_objects[name].defaults = $.extend(true, { }, _objects[parent].defaults, _objects[name].defaults);
+			_objects[nameit].defaults = $.extend(true, { }, _objects[parent].defaults, _p_defs[nameit]);
 			$.each(_objects, function(i, obj){
-				if (obj.extendz === name) { _extendInIt(name, obj.name); }
+				if (obj.extendz === nameit) { _extendInIt(nameit, obj.name); }
 			});
 			
 		};
@@ -141,19 +143,23 @@
 	
 	$.plugin = function( name, object, extend ) {
 	
+		var _Obj = _Object;
 		object.name = name;
+		
+		/* Move? */
+		_p_defs[name] = (object.defaults) ? object.defaults : {};
 		
 		var buildIT = _setBuilder(object)
 		
 		if (extend && _objects[extend]) { 
-			_Object = _objects[extend];
+			_Obj = _objects[extend];
 			object.extendz = extend;
 			buildIT = _extendBuilder(buildIT, extend)
 		}
 		
 		_builder[name] = buildIT;
 		
-		_objects[name] = $.extend(true, { }, _Object, object);
+		_objects[name] = $.extend(true, { }, _Obj, object);
 		
 		var _init = function( options ) {
 			return this.each(function() {
