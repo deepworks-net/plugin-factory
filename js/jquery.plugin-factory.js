@@ -75,11 +75,13 @@
 		return buildIT;
 	};
 
-	var _applyBuilder = function(buildIT, name, elem) {
+	var _applyBuilder = function(buildIT, name, elem, extend) {
+		var result = {};
 		if (name && buildIT[name]) {
-			var result = {};
 			buildIT[name].forEach(function(chunk) {
-				result = $.extend(true, {}, result, chunk.apply(elem));
+				if (extend) {
+					result = $.extend(true, {}, result, chunk.apply(elem));
+				} else { chunk.apply(elem) }
 			});
 		}
 		return result;
@@ -97,18 +99,15 @@
 				return this.config;
 			}
 		},
-		init: function(elem, options){
+		init: function(elem, options, name){
 			this.elem = elem;
 			this.$elem = $(elem);
 			this.options = options;
 			this.defaults = this.__proto__.defaults;
 			this.methods = this.__proto__.methods;
-			return this;
-		},
-		sTwo: function(elem, name) {
-			this.metadata = _applyBuilder(_builder[name], 'metadata', this);
+			this.metadata = _applyBuilder(_builder[name], 'metadata', this, true);
 			this.config = this.builder.configFn.apply(this);
-			_applyBuilder(_builder[name], 'inits', this);
+			_applyBuilder(_builder[name], 'inits', this, false);
 			return this;
 		},
 		extendz: undefined,
@@ -140,7 +139,7 @@
 		var _init = function( options ) {
 			return this.each(function() {
 				if ( undefined === $(this).data(name) ){
-					var data = Object.create(_objects[name]).init(this, options).sTwo(this, name);
+					var data = Object.create(_objects[name]).init(this, options, name);
 					data.$elem.data(name, data);
 				}
 			});
