@@ -116,6 +116,11 @@
 				console.log(name+' - Error!');
 			}
 		};
+		
+		$[name] = function() { return true; };
+		$[name].setDefaults = function(options) {
+			_objects[name].defaults = $.extend(true, { }, _objects[name].defaults, options);
+		};
 	};
 	
 })( jQuery );
