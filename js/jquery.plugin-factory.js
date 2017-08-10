@@ -2,8 +2,6 @@
 
 	Will Document This At Some Point
 	
-	This lib depends on the validationEngine and JQuery
-	
 */
 ;(function ( $ ) {
 	'use strict'
@@ -83,7 +81,7 @@
 			configFn: function() {
 				return $.extend(true, { }, this.defaults, this.options, this.metadata, this.framework);
 			},
-			initFn: function() { }
+			initFn: function() { return this; }
 		}
 	};
 	
