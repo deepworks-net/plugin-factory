@@ -153,7 +153,7 @@
 		builder: {
 			/* Function used to pull metadata into the plugin. Default returns an empty object. */
 			metadataFn: function() { return {}; },
-			/* Builds the plugin's configuration object based on various objects. */
+			/* Builds the plugin's configuration object based on various objects. -Private Right Now */
 			configFn: function() {
 				return $.extend(true, { }, this.defaults, this.options, this.metadata, this.framework);
 			},
@@ -255,7 +255,7 @@
 			};
 		
 			/*
-				Adds the plugin in the jQuery namespace. Can be passed either a method command (as a string) or a set of options (as an object) to initialize a plugin. If a command does not exist,
+				Adds the plugin to the jQuery namespace. Can be passed either a method command (as a string) or a set of options (as an object) to initialize a plugin. If a command does not exist,
 				the plugin with throw an error (in the console) and not initialize the plugin. If nothing is passed, the plugin will be initialized with the default settings for the plugin.
 			*/
 			$.fn[name] =  function (options) {

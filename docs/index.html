@@ -28,6 +28,15 @@
 	<link href="assets/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
 	<link href="assets/layout/css/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
 	<link href="assets/css/custom-HD.css" rel="stylesheet" type="text/css" />
+	<style>
+		table.doc-table tr {
+			border-bottom: 1px solid #e7ecf1;
+		}
+		table.doc-table td {
+			padding: 10px;
+		}
+	</style>
+	
 	<!--<link rel="shortcut icon" href="assets/favicon3.ico" />-->
 </head>
 <!-- END HEAD -->
@@ -50,39 +59,235 @@
 					<div class="page-content-inner">
 						<div class="row">
 							<div class="col-xs-12 form">
-								<div class="col-md-2"></div>
-								<div class="form-group col-md-8">
+								<div class="form-group col-md-12">
 									<h1 class="form-section" style="margin-bottom: 0px; margin-top: 5px;">
-										Plugin-Factory jQuery Documentation
+										Plugin-Factory jQuery Documentation <small>(v1.0.0)</small>
 									</h1>
-									<div style="margin-top:10px;">
-										<!--<u><b>Important!</b></u></br>
-										
-										<center>
-										  <p>Contact the Center for Instruction, Technology &amp; Innovation (CiTi) Helpdesk</p>
-										Phone: 963-4305<br>
-										Email: <b><a href="mailto:helpdesk@citiboces.org">helpdesk@citiboces.org</a></b>
-										</center>-->
+									<div style="margin-top:10px; margin-bottom: 10px;">
+										<p>
+											The Plugin-Factory is a lightweight jQuery plugin that quickly and easily adds new plugins to jQuery without the need to
+											worry about replicating standard jQuery plugin boilerplate code. The Plugin-Factory also can extend other plugins
+											added with the factory, similar to class inheritance in OOP languages like Java and C++, and can inherit/override parent functionality.
+										</p>
+										<!--
+										(name, [, pluginOptions] [, pluginToExtend]) 
+										-->
 									</div>
 								</div>
-								<div class="col-md-2"></div>
 								<div class="clearfix"></div>
-								<div class="col-md-2"></div>
-								<div class="col-md-8">
-									<textarea class="code fade">
-$.plugin('plugOne' {
+								<div class="col-md-12">
+									<h4><b>Include the plugin:</b></h4>
+									To use the jQuery Plugin-Factory, just include the script file on your page:
+									<textarea class="html fade"><script src="../js/jquery.plugin-factory.min.js" type="text/javascript"></script></textarea>
+									</br>
+									<h4><b>Plugin-Factory Function:</b></h4>
+									Adding the Plugin-Factory will add the jQuery.plugin function to the jQuery namespace.
+									<div class="panel panel-default" style="margin-top:10px;">
+										<div class="panel-heading">
+											jQuery.plugin(pluginName, [, pluginOptions] [, pluginToExtend])
+											<span class="pull-right">
+												Returns: <a href="http://api.jquery.com/Types/#Object" target="_blank">Object</a>
+											</span>
+										</div>
+										<div class="panel-body">
+											<table class="doc-table" width="100%">
+												<tr>
+													<td>
+														<b>pluginName</b></br>
+														Type: <a href="http://api.jquery.com/Types/#String" target="_blank">String</a></br>
+														The name of the new plugin to create.
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<b>pluginOptions</b></br>
+														Type: <a href="http://api.jquery.com/Types/#Object" target="_blank">Object</a></br>
+														An object representing the plugin's options and behavior.
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<b>pluginToExtend</b></br>
+														Type: <a href="http://api.jquery.com/Types/#String" target="_blank">String</a></br>
+														The name of an existing plugin to extend into the plugin being created.
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="col-md-12">
+									<h4><b>Options:</b></h4>
+									A plugin's options have four main sections: defaults, framework, methods, and builder. 
+									<div class="panel panel-default" style="margin-top:10px;">
+										<div class="panel-heading">
+											defaults:
+										</div>
+										<div class="panel-body">
+											This is where the defaults of the plugin are declared. These can be overridden by the user when initializing an existing factory plugin.
+											This is by default, an empty object.
+										</div>
+									</div>
+									<div class="panel panel-default" style="margin-top:10px;">
+										<div class="panel-heading">
+											framework:
+										</div>
+										<div class="panel-body">
+											This is where the behavior of the plugin is defined. This cannot be overridden by a user when initializing an existing factory plugin.
+											This is by default, an empty object. It is suggested to preface framework functions and variables with an underscore to note that it belongs to
+											the framework object but it is not required.
+										</div>
+									</div>
+									<div class="panel panel-default" style="margin-top:10px;">
+										<div class="panel-heading">
+											methods:
+										</div>
+										<div class="panel-body">
+											This is where public methods for the plugin are defined. This cannot be overridden by a user when initializing an existing factory plugin.
+											There are (2) methods pre defined that are available to all factory plugins:
+											<div class="panel panel-default" style="margin-top:10px;">
+												<div class="panel-heading">
+													data:
+													<span class="pull-right">
+														Returns: <a href="http://api.jquery.com/Types/#Object" target="_blank">Object</a>
+													</span>
+												</div>
+												<div class="panel-body">
+													Returns the data object associated with the element the plugin was created on.
+												</div>
+											</div>
+											<div class="panel panel-default" style="margin-top:10px;">
+												<div class="panel-heading">
+													api:
+													<span class="pull-right">
+														Returns: <a href="http://api.jquery.com/Types/#Object" target="_blank">Object</a>
+													</span>
+												</div>
+												<div class="panel-body">
+													Returns the configuration of the plugin associated with the element the plugin was created on.
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-default" style="margin-top:10px;">
+										<div class="panel-heading">
+											builder:
+										</div>
+										<div class="panel-body">
+											This is where initialization methods are defined. This cannot be overridden by a user when initializing an existing factory plugin.
+											There are (2) base methods defined for all factory plugins. Adding either or both of these methods to your plugin options will not override
+											these (2) methods. The behind the scenes builder will take these existing methods and call them first, then additionally call the methods supplied.
+											!!! Talk about what there is access to inside these functions? !!!
+											<div class="panel panel-default" style="margin-top:10px;">
+												<div class="panel-heading">
+													metadataFn:
+													<span class="pull-right">
+														Returns: <a href="http://api.jquery.com/Types/#Object" target="_blank">Object</a>
+													</span>
+												</div>
+												<div class="panel-body">
+													Returns an object with defaults scraped from the element's metadata the plugin is attached to. The initial function returns a blank object. 
+													All metadata objects created will be merged together in the order they where added (Base plugin, then all child plugins in the order they were created).
+												</div>
+											</div>
+											<div class="panel panel-default" style="margin-top:10px;">
+												<div class="panel-heading">
+													initFn:
+													<span class="pull-right">
+														Returns: <a href="http://api.jquery.com/Types/#Object" target="_blank">Object</a>
+													</span>
+												</div>
+												<div class="panel-body">
+													Custom Initialize functionality for the plugin. Returns itself. All initialization functions are called in the order they were added 
+													(Base plugin, then all child plugins in the order they were created).  
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="col-md-12">
+									<h4><b>Example:</b></h4>
+									To initalize a new plugin called 'exampleOne', call the $.plugin (or jQuery.plugin) method with the desired plugin options:
+									<textarea class="code fade">$.plugin('exampleOne', {
 	defaults: {
-		val: 'plugOne'
+		val: 'one',
+		orFunc: function() {
+			alert(this.val)
+		}
 	},
 	framework: {
 		_run: function() {
-			alert(this.config.val);
+			this.orFunc();
+		},
+	},
+	methods: {
+		fire: function() {
+			this.config._run();
 		}
 	}
-});
-									</textarea>
+});</textarea>
+									This has now added 'exampleOne' to jQuery and can be initialized to an element like so:
+									<textarea class="code fade">$().exampleOne();</textarea>
+[!]<textarea class="code fade">$.plugin('example1' {
+defaults: {
+	e: 'click',
+	val: 'one',
+	orFunc: function() {
+		alert(this.val)
+	}
+},
+framework: {
+	_execute: function() {
+		this.orFunc();
+	},
+	_run: function() {
+		this._execute();
+	},
+	_onEvent: function(e) {
+		if (this.preventDefault) {
+			e.preventDefault();
+		}
+		this._run();
+	}
+},
+methods: {
+	fire: function() {
+		this.config._execute();
+	}
+},
+builder: {
+	metadataFn: function() {
+		return { "e": this.$elem.attr('data-event') };
+	},
+	initFn: function() {
+		if(this.config.e) {
+			var data = this;
+			this.$elem.on(this.config.e, function(e){
+				data.config._onEvent(e);
+			});
+		};
+		return this;
+	}
+}
+});</textarea>[/!]
 								</div>
-								<div class="col-md-2"></div>
+								<div class="clearfix"></div>
+								<div class="col-md-12">
+									<h4><b>Behavior:</b></h4>
+									<b>How the plugin is created:</b></br>
+									All plugins must be attached to an element (as jQuery plugins are usually defined).
+									When creating a new plugin, the defaults, framework, user options, and any metadata gathered by the metadata builder functions are extended together. The
+									order in which this occurs is: defaults, then user options, then metadata, then the framework. Keep this in mind when creating a plugin as items last to be
+									added to the plugin will override those that were added first (E.g. a function declared in the defaults will be overridden by a function of the same name that is
+									added in the user options).
+								</div>
+								<div class="clearfix"></div>
+								<div class="col-md-12">
+									
+									<textarea class="code fade"></textarea>
+								</div>
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -116,10 +321,14 @@ $.plugin('plugOne' {
 	<script src="assets/plugins/js/jquery.validate.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/js/additional-methods.min.js" type="text/javascript"></script>
 	
+	<script src="../js/jquery.plugin-factory.min.js" type="text/javascript"></script>
 	<script src="assets/Selectpicker-1.10.0/js/bootstrap-select.js" type="text/javascript"></script>
 	<script src="assets/plugins/js/codemirror.js" type="text/javascript"></script>
 	<script src="assets/plugins/js/javascript/javascript.js" type="text/javascript"></script>
+	<script src="assets/plugins/js/css/css.js" type="text/javascript"></script>
+	<script src="assets/plugins/js/xml/xml.js" type="text/javascript"></script>
 	<script src="assets/plugins/js/htmlmixed/htmlmixed.js" type="text/javascript"></script>
+	
 
 	<script src="assets/scripts/app.min.js" type="text/javascript"></script>
 	<script src="assets/scripts/network.app.js" type="text/javascript"></script>
@@ -129,11 +338,44 @@ $.plugin('plugOne' {
 	<script src="assets/layout/js/quick-sidebar.min.js" type="text/javascript"></script>
 	
 	<script>
+		var initExamples = function() {
+			$.plugin('exampleOne', {
+				defaults: {
+					val: 'one',
+					orFunc: function() {
+						alert(this.val)
+					}
+				},
+				framework: {
+					_run: function() {
+						this.orFunc();
+					},
+				},
+				methods: {
+					fire: function() {
+						this.config._run();
+					}
+				}
+			});
+		};
+	
 		$(document).ready(function(){
+			$('.html').each(function(index) {
+                $(this).attr('id', 'html-' + index);
+				CodeMirror.fromTextArea(document.getElementById('html-' + index), {
+						lineNumbers: true,
+						matchBrackets: true,
+						styleActiveLine: true,
+						theme:"ambiance",
+						mode: "htmlmixed",
+						readOnly: true
+					}
+				);
+			});
             $('.code').each(function(index) {
                 $(this).attr('id', 'code-' + index);
                 CodeMirror.fromTextArea(document.getElementById('code-' + index), {
-                       lineNumbers: true,
+						lineNumbers: true,
 						matchBrackets: true,
 						styleActiveLine: true,
 						theme:"ambiance",
@@ -142,6 +384,7 @@ $.plugin('plugOne' {
                     }
                 );
             });
+			initExamples();
 		});
 	</script>
 	
