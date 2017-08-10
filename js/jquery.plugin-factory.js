@@ -2,6 +2,8 @@
 
 	Will Document This At Some Point
 	
+	This lib depends on JQuery.
+	
 */
 ;(function ( $ ) {
 	'use strict'
