@@ -43,6 +43,7 @@
 	'use strict'
 	
 	var _objects = {};
+	var _builder = {};
 	
 	if ( typeof Object.create !== "function" ) {
 		Object.create = function (o) {
@@ -50,6 +51,38 @@
 			F.prototype = o;
 			return new F();
 		};
+	};
+	
+	var _setBuilder = function(object) {
+		var buildIT = { metadata: [], inits: [] };
+		if (object.builder) {
+			if (object.builder.metadataFn) { buildIT['metadata'].push(object.builder.metadataFn); };
+			if (object.builder.initFn) { buildIT['inits'].push(object.builder.initFn); };
+		}
+		return buildIT;
+	};
+	
+	var _extendBuilder = function(buildIT,extend) {
+		if (extend && _builder[extend]) {
+			var bbl = _builder[extend];
+			bbl['metadata'].forEach(function(elem) {
+				if (!buildIT['metadata'].includes(elem)) { buildIT['metadata'].push(elem); }
+			});
+			bbl['inits'].forEach(function(elem) {
+				if (!buildIT['inits'].includes(elem)) { buildIT['inits'].push(elem); }
+			});
+		}
+		return buildIT;
+	};
+
+	var _applyBuilder = function(buildIT, name, elem) {
+		if (name && buildIT[name]) {
+			var result = {};
+			buildIT[name].forEach(function(chunk) {
+				result = $.extend(true, {}, result, chunk.apply(elem));
+			});
+		}
+		return result;
 	};
 	
 	var _Object = {
@@ -70,14 +103,17 @@
 			this.options = options;
 			this.defaults = this.__proto__.defaults;
 			this.methods = this.__proto__.methods;
-			this.metadata = this.builder.metadataFn.apply(this);
-			this.config = this.builder.configFn.apply(this);
-			this.builder.initFn.apply(this);
 			return this;
 		},
-		super: function() { return this; },
+		sTwo: function(elem, name) {
+			this.metadata = _applyBuilder(_builder[name], 'metadata', this);
+			this.config = this.builder.configFn.apply(this);
+			_applyBuilder(_builder[name], 'inits', this);
+			return this;
+		},
+		extendz: undefined,
 		builder: {
-			metadataFn: function(){ return undefined; },
+			metadataFn: function() { return {}; },
 			configFn: function() {
 				return $.extend(true, { }, this.defaults, this.options, this.metadata, this.framework);
 			},
@@ -89,17 +125,22 @@
 	
 		object.name = name;
 		
+		var buildIT = _setBuilder(object)
+		
 		if (extend && _objects[extend]) { 
 			_Object = _objects[extend];
-			object.super = function() { return _Object; };
+			object.extendz = extend;
+			buildIT = _extendBuilder(buildIT, extend)
 		}
-
+		
+		_builder[name] = buildIT;
+		
 		_objects[name] = $.extend(true, { }, _Object, object);
 		
 		var _init = function( options ) {
 			return this.each(function() {
 				if ( undefined === $(this).data(name) ){
-					var data = Object.create(_objects[name]).init(this, options);
+					var data = Object.create(_objects[name]).init(this, options).sTwo(this, name);
 					data.$elem.data(name, data);
 				}
 			});
