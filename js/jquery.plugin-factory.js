@@ -165,7 +165,7 @@
 	/* Initializes a single plugin based on the plugin parameter string passed to it. If nothing is passed or it does not exist as a plugin, nothing happens. */
 	var _initPlugin = function(plugin) {
 		if (plugin && _objects[plugin]) {
-			$[plugin].init();
+			return $[plugin].init();
 		}
 	};
 	
@@ -265,11 +265,8 @@
 				} else if ( typeof options === 'object' || !options ) {
 					return _init.apply(this, arguments);
 				} else {
-					if (data && typeof options === 'string') {
-						console.error(name+' - Method '+options+' Does Not Exist!');
-					} else {
-						console.error(name+' - Access without initialization!');
-					}
+					(data && typeof options === 'string') ? console.error(name+' - Method '+options+' Does Not Exist!') : console.error(name+' - Access without initialization!');
+					//return this;
 				}
 			};
 			
@@ -279,9 +276,12 @@
 			$[name].setDefaults = function(options) {
 				_extendDefaults(name, options);
 			};
-			/* Adds the ability to automatically initialize a plugin based on the attribute data-plugin, adding data-plugin="[Name Of Plugin]" and then calling this method will initialize it.*/
+			/* 
+				Adds the ability to automatically initialize a plugin based on the attribute data-plugin, adding data-plugin="[Name Of Plugin]" and then calling this method will initialize it.
+				Returns a collection of initialized objects.
+			*/
 			$[name].init = function() {
-				$.fn[name].apply($('[data-plugin="'+name+'"]'));
+				return $.fn[name].apply($('[data-plugin="'+name+'"]'));
 			};
 			/* 
 				Adds a new public method to the plugin. The mName parameter is the string name of the function, mFunc is the function definition. 
@@ -302,20 +302,24 @@
 	/* 
 		Initializes plugin(s). If nothing is passed to this function, it will initialize all plugins via the plugin's init function (with data-plugin="[Name Of Plugin]").
 		If the name of a plugin is passed, that specific plugin will be initialized. Also accepts an array of plugin names to initialize. If the plugin name does not exist, nothing is initialized.
+		Returns a jQuery collection of initialized objects. Note: this does not return just initiallized objects but any object where init was called on it.
 	*/
 	$.plugin.init = function(plugin) {
+		var retObj = $();
 		if (plugin) {
 			if (Array.isArray(plugin)) {
 				$.each(plugin, function(i, val) {
-					_initPlugin(val);
+					retObj = retObj.add(_initPlugin(val));
 				});
+				return retObj;
 			} else {
-				_initPlugin(plugin);
+				return _initPlugin(plugin);
 			}
 		} else {
 			$.each(_objects, function(i, obj) {
-				$[obj.name].init();
+				retObj = retObj.add($[obj.name].init());
 			});
+			return retObj;
 		}
 	};
 	
@@ -326,7 +330,7 @@
 	
 	/* Adds a method to a plugin with the given name. The plugin parameter string is the name of the plugin, the mName parameter is the string name of the function, mFunc is the function definition. */
 	$.plugin.addMethod = function(plugin, mName, mFunc) {
-		(plugin && typeof plugin === 'string' && _objects[plugin] && typeof mName === 'string' && typeof mFunc === 'function') ? _addMethod(plugin, mName, mFunc) : console.error('Could Not Method! Please check your plugin name!');
+		(plugin && typeof plugin === 'string' && _objects[plugin] && typeof mName === 'string' && typeof mFunc === 'function') ? _addMethod(plugin, mName, mFunc) : console.error('Could Not Add Method! Please check your plugin name!');
 	}
 	
 })( jQuery );

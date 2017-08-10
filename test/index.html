@@ -8,10 +8,10 @@
 				<button type="button" id="test6">
 					Test 6 - Inheritance Problem (View Console)
 				</button>
-				<button type="button" id="test7">
+				<button type="button" id="test7" data-plugin="plugTwo">
 					Test 7 - Inheritance Problem (View Console)
 				</button>
-				<button type="button" id="test8">
+				<button type="button" id="test8" data-plugin="plugThree">
 					Test 8 - Inheritance Problem (View Console)
 				</button>
 			</td>
@@ -83,6 +83,17 @@
 				</button>
 			</td>
 			<td><div id="recDiv9"></div></td>
+		</tr>
+	</tbody>
+</table>
+</br></br>
+<table>
+	<tbody>
+		<tr>
+			<td>Testing Static Functions</td>
+		</tr>
+		<tr>
+			
 		</tr>
 	</tbody>
 </table>
@@ -174,9 +185,9 @@
 		}
 	}, 'plugFive');
 	
-	$('#test6').plugOne();
-	$('#test7').plugTwo();
-	$('#test8').plugThree();
+	console.log($('#test6').plugOne());
+	//$('#test7').plugTwo();
+	//$('#test8').plugThree();
 	
 	$('#test9').plugOne();
 	$('#test10').plugFour();
@@ -199,10 +210,15 @@
 	});
 	
 	$.plugOne.init();
-	$.plugTwo.init();
+	$.plugin.init().each(function(){
+		this.click();
+	});
+		
 	$.plugThree.init();
 	
-	$.plugin.init(['plugSix', 'plugFour', 'plugFive']);
+	$.plugin.init(['plugSix', 'plugFour', 'plugFive']).each(function(){
+		this.click();
+	});
 	
 	$('#recDiv9').plugFive('api'); 
 	
@@ -230,7 +246,8 @@
 		return this.config.val + ' is the value!';
 	});
 	
-	console.log($('#test7').plugTwo('GetIt'));
-	console.log($('#test13').plugTwo('GetIt'));
+	//console.log($('#test7').plugTwo('GetIt'));
+	//console.log($('#test13').plugTwo('GetIt'));
+	
 	
 </script>
