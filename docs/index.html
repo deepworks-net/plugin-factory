@@ -208,29 +208,68 @@
 								</div>
 								<div class="clearfix"></div>
 								<div class="col-md-12">
-									<h4><b>Example:</b></h4>
-									To initalize a new plugin called 'exampleOne', call the $.plugin (or jQuery.plugin) method with the desired plugin options:
-									<textarea class="code fade">$.plugin('exampleOne', {
-	defaults: {
-		val: 'one',
-		orFunc: function() {
-			alert(this.val)
-		}
-	},
-	framework: {
-		_run: function() {
-			this.orFunc();
-		},
-	},
-	methods: {
-		fire: function() {
-			this.config._run();
-		}
-	}
-});</textarea>
-									This has now added 'exampleOne' to jQuery and can be initialized to an element like so:
-									<textarea class="code fade">$().exampleOne();</textarea>
-[!]<textarea class="code fade">$.plugin('example1' {
+									<h4><b>Examples:</b></h4>
+									To create a new base plugin called 'exampleOne' that will add the value in the plugin to an input programatically, call the $.plugin (jQuery.plugin) with the plugin options:
+									<textarea class="html fade">
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Plugin-Factory Example 1</title>
+	<script src="https://www.deepworks.net/plugins/Plugin-Factory-v1.0.0/js/jquery.plugin-factory.js"></script>
+</head>
+<body>
+	<div id="example1">
+		<input id="text1" type="text" value="0" disabled>
+		<button type="button" id="button1">
+			Count
+		</button>
+	</div>
+	
+	<script>
+		$.plugin('exampleOne', {
+			defaults: {
+				val: 1,
+				orFunc: function() {
+					$('#text1').val(this.val + +$('#text1').val());
+				}
+			},
+			framework: {
+				_run: function() {
+					this.orFunc();
+				},
+			},
+			methods: {
+				fire: function() {
+					this.config._run();
+				}
+			}
+		});
+		
+		$('#button1').exampleOne();
+		
+		$('#button1').on('click', function(e){
+			$(this).exampleOne('fire');
+		});
+	</script>
+</body>
+</html></textarea>
+									<h5><b>Demo:</b></h5>
+									<div id="demo1">
+										<div id="example_demo1">
+											<div class="input-group">
+												<input id="text_demo1" class="form-control input-small" type="text" value="0" disabled>
+												<button type="button" class="btn btn-default" id="button_demo1">
+													Count
+												</button>
+											</div>
+										</div>
+									</div>
+									[!]This has now added 'exampleOne' to jQuery and can be initialized to an element like so:
+									<textarea class="code fade"></textarea>
+									
+									
+<textarea class="code fade">$.plugin('example1' {
 defaults: {
 	e: 'click',
 	val: 'one',
@@ -274,7 +313,7 @@ builder: {
 });</textarea>[/!]
 								</div>
 								<div class="clearfix"></div>
-								<div class="col-md-12">
+								[!]<div class="col-md-12">
 									<h4><b>Behavior:</b></h4>
 									<b>How the plugin is created:</b></br>
 									All plugins must be attached to an element (as jQuery plugins are usually defined).
@@ -287,7 +326,7 @@ builder: {
 								<div class="col-md-12">
 									
 									<textarea class="code fade"></textarea>
-								</div>
+								</div>[/!]
 								<div class="clearfix"></div>
 							</div>
 						</div>
@@ -338,24 +377,26 @@ builder: {
 	<script src="assets/layout/js/quick-sidebar.min.js" type="text/javascript"></script>
 	
 	<script>
+	
 		var initExamples = function() {
 			$.plugin('exampleOne', {
 				defaults: {
-					val: 'one',
+					val: 1,
 					orFunc: function() {
-						alert(this.val)
+						$('#text_demo1').val(this.val + +$('#text_demo1').val());
 					}
 				},
 				framework: {
-					_run: function() {
-						this.orFunc();
-					},
+					_run: function() { this.orFunc(); },
 				},
 				methods: {
-					fire: function() {
-						this.config._run();
-					}
+					fire: function() { this.config._run(); }
 				}
+			});
+			
+			$('#button_demo1').exampleOne();
+			$('#button_demo1').on('click', function(e){
+				$(this).exampleOne('fire');
 			});
 		};
 	
