@@ -1,0 +1,236 @@
+<table>
+	<tbody>
+		<tr>
+			<td>In Order</td>
+		</tr>
+		<tr>
+			<td>
+				<button type="button" id="test6">
+					Test 6 - Inheritance Problem (View Console)
+				</button>
+				<button type="button" id="test7">
+					Test 7 - Inheritance Problem (View Console)
+				</button>
+				<button type="button" id="test8">
+					Test 8 - Inheritance Problem (View Console)
+				</button>
+			</td>
+			<td><div id="recDiv6"></div></td>
+		</tr>
+	</tbody>
+</table>
+</br></br>
+<table>
+	<tbody>
+		<tr>
+			<td>Out Of Order</td>
+		</tr>
+		<tr>
+			<td>
+				<button type="button" id="test9">
+					Test 9 - Inheritance Problem (View Console)
+				</button>
+				<button type="button" id="test10">
+					Test 10 - Inheritance Problem (View Console)
+				</button>
+				<button type="button" id="test11">
+					Test 11 - Inheritance Problem (View Console)
+				</button>
+			</td>
+			<td><div id="recDiv7"></div></td>
+		</tr>
+	</tbody>
+</table>
+
+</br></br>
+<table>
+	<tbody>
+		<tr>
+			<td>In Order (With New Defaults) (With New Initialization)</td>
+		</tr>
+		<tr>
+			<td>
+				<button type="button" id="test12" data-plugin="plugOne">
+					Test 12 - Inheritance Problem (View Console)
+				</button>
+				<button type="button" id="test13" data-plugin="plugTwo">
+					Test 13 - Inheritance Problem (View Console)
+				</button>
+				<button type="button" id="test14" data-plugin="plugThree">
+					Test 14 - Inheritance Problem (View Console)
+				</button>
+			</td>
+			<td><div id="recDiv8"></div></td>
+		</tr>
+	</tbody>
+</table>
+</br></br>
+<table>
+	<tbody>
+		<tr>
+			<td>Out Of Order (With New Defaults) (With New Initialization)</td>
+		</tr>
+		<tr>
+			<td>
+				<button type="button" id="test15" data-plugin="plugSix">
+					Test 15 - Inheritance Problem (View Console)
+				</button>
+				<button type="button" id="test16" data-plugin="plugFour">
+					Test 16 - Inheritance Problem (View Console)
+				</button>
+				<button type="button" id="test17" data-plugin="plugFive">
+					Test 17 - Inheritance Problem (View Console)
+				</button>
+			</td>
+			<td><div id="recDiv9"></div></td>
+		</tr>
+	</tbody>
+</table>
+
+
+<script src="plugins/jquery.min.js" type="text/javascript"></script>
+
+<script src="../js/jquery.plugin-factory.js" type="text/javascript"></script>
+
+<script>
+
+	$.plugin('plugOne', {
+		defaults: {
+			e: 'click',
+			val: 'one',
+			orFunc: function() {
+				console.log(this.val);
+			}
+		},
+		framework: {
+			_execute: function(options) {
+				this.orFunc();
+			},
+			_run: function() {
+				this._execute();
+			},
+			_onEvent: function(e) {
+				if (this.preventDefault) {
+					e.preventDefault();
+				}
+				this._run();
+			}
+		},
+		methods: {
+			fire: function(options) {
+				this.config._execute(options);
+			}
+		},
+		builder: {
+			metadataFn: function() {
+				return { "e": this.$elem.attr('data-event') };
+			},
+			initFn: function() {
+				this.config.elem = this.elem;
+				this.config.$elem = this.$elem;
+				if(this.config.e) {
+					var data = this;
+					this.$elem.on(this.config.e, function(e){
+						data.config._onEvent(e);
+					});
+				};
+				return this;
+			}
+		}
+	});
+	
+	$.plugin('plugTwo', {
+		defaults: {
+			val: 'two'
+		}
+	}, 'plugOne');
+	
+	$.plugin('plugFour', {
+		defaults: {
+			val: 'four'
+		}
+	}, 'plugOne');
+	
+	$.plugin('plugThree', {
+		defaults: {
+			val: 'three'
+		}
+	}, 'plugTwo');
+	
+	$.plugin('plugFive', {
+		defaults: {
+			val: 'five'
+		}
+	}, 'plugFour');
+	
+	$.plugin('plugSix', {
+		defaults: {
+			val: 'six'
+		},
+		methods: {
+			newMeth: function() {
+				console.log('IM ALREADY HERE!');
+			}
+		}
+	}, 'plugFive');
+	
+	$('#test6').plugOne();
+	$('#test7').plugTwo();
+	$('#test8').plugThree();
+	
+	$('#test9').plugOne();
+	$('#test10').plugFour();
+	$('#test11').plugFive();
+	
+	$.plugThree.setDefaults({
+		val: '3-five'
+	});
+	
+	$.plugTwo.setDefaults({
+		val: '2-four'
+	});
+	
+	$.plugFour.setDefaults({
+		val: '4-seven'
+	});
+	
+	$.plugin.setDefaults('plugFive', {
+		val: '5-eight'
+	});
+	
+	$.plugOne.init();
+	$.plugTwo.init();
+	$.plugThree.init();
+	
+	$.plugin.init(['plugSix', 'plugFour', 'plugFive']);
+	
+	$('#recDiv9').plugFive('api'); 
+	
+	$.plugFive.addMethod('newMeth', function(){
+		console.log('IVE BEEN ADDED!');
+	});
+	
+	$.plugTwo.addMethod('Jump');
+	$.plugTwo.addMethod('Jump2', function(word) {
+		console.log('The word is: '+word);
+	});
+	
+	$('#test17').plugFive('newMeth');
+	$('#test15').plugSix('newMeth');
+	
+	$('#test7').plugTwo('Jump');
+	$('#test7').plugTwo('Jump2', 'Boomshakalaka!');
+	
+	console.log('Plugin plugSix ' + (($.plugin.exists('plugSix')) ? 'exists!' : 'does not exist!'));
+	console.log('Plugin plugSix2 ' + (($.plugin.exists('plugSix2')) ? 'exists!' : 'does not exist!'));
+	
+	$.plugin.addMethod('newMeth');
+	$.plugin.addMethod('plugOne', 'Boom');
+	$.plugin.addMethod('plugTwo', 'GetIt', function() {
+		return this.config.val + ' is the value!';
+	});
+	
+	console.log($('#test7').plugTwo('GetIt'));
+	console.log($('#test13').plugTwo('GetIt'));
+	
+</script>
