@@ -123,13 +123,20 @@
 	};
 	
 	var _extendDefaults = function( name, options ) {
-		$.each(_objects, function(i, obj){
-			if (obj.extendz === name) {
-				_extendDefaults(obj.name, options);
-				//console.log(name + ': ' + obj.name + ' -> ' + obj.extendz);
-			}
-		});
+		
+		var _extendInIt = function( parent, name ) {
+
+			_objects[name].defaults = $.extend(true, { }, _objects[parent].defaults, _objects[name].defaults);
+			$.each(_objects, function(i, obj){
+				if (obj.extendz === name) { _extendInIt(name, obj.name); }
+			});
+			
+		};
+		
 		_objects[name].defaults = $.extend(true, { }, _objects[name].defaults, options);
+		$.each(_objects, function(i, obj){
+			if (obj.extendz === name) { _extendInIt(name, obj.name); }
+		});
 	};
 	
 	$.plugin = function( name, object, extend ) {
@@ -167,6 +174,7 @@
 			}
 		};
 		
+		// Should These Be defaults of the plugin or also for the builder?
 		$[name] = function() { return true; };
 		$[name].setDefaults = function(options) {
 			_extendDefaults(name, options);
