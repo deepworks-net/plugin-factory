@@ -68,7 +68,7 @@
 										<p>
 											The Plugin-Factory is a lightweight jQuery plugin that quickly and easily adds new plugins to jQuery without the need to
 											worry about replicating standard jQuery plugin boilerplate code. The Plugin-Factory also can extend other plugins
-											added with the factory (similar to class inheritance in OOP languages like Java and C++) and can inherit/override parent functionality.
+											added with the factory (similar to class inheritance in OO languages like Java and C++) and can inherit/override parent functionality.
 										</p>
 									</div>
 									<h4><b>Include the plugin:</b></h4>
@@ -121,6 +121,11 @@
 														<table class="doc-table" width="100%">
 															<tr>
 																<td>
+																	Creates a new base plugin and adds it to the jQuery namespace.
+																</td>
+															</tr>
+															<tr>
+																<td>
 																	<b>name</b></br>
 																	Type: <a href="http://api.jquery.com/Types/#String" target="_blank">String</a></br>
 																	The name of the new plugin to create.
@@ -130,7 +135,7 @@
 																<td>
 																	<b>options</b></br>
 																	Type: <a href="http://api.jquery.com/Types/#Object" target="_blank">Object</a></br>
-																	An object representing the plugin's options and behavior.
+																	An object representing the plugin's default options and behavior. See full option details <a href="index.html#options" class="underline">here</a>.
 																</td>
 															</tr>
 														</table>
@@ -147,6 +152,11 @@
 														<table class="doc-table" width="100%">
 															<tr>
 																<td>
+																	Extends a base plugin to create a new plugin and adds it to the jQuery namespace.
+																</td>
+															</tr>
+															<tr>
+																<td>
 																	<b>name</b></br>
 																	Type: <a href="http://api.jquery.com/Types/#String" target="_blank">String</a></br>
 																	The name of the new plugin to create.
@@ -156,7 +166,7 @@
 																<td>
 																	<b>options</b></br>
 																	Type: <a href="http://api.jquery.com/Types/#Object" target="_blank">Object</a></br>
-																	An object representing the plugin's options and behavior.
+																	An object representing the plugin's default options and behavior.
 																</td>
 															</tr>
 															<tr>
@@ -182,9 +192,15 @@
 														<table class="doc-table" width="100%">
 															<tr>
 																<td>
+																	Determine whether a specific plugin with the supplied name has been defined and exists. 
+																	Will return true if the plugin with the corresponding name exists, returns false otherwise.
+																</td>
+															</tr>
+															<tr>
+																<td>
 																	<b>name</b></br>
 																	Type: <a href="http://api.jquery.com/Types/#String" target="_blank">String</a></br>
-																	Will return true if the plugin with the corresponding name exists, returns false otherwise.
+																	The name of the specific plugin who's existence is in question.
 																</td>
 															</tr>
 														</table>
@@ -194,7 +210,7 @@
 												<i>Initialize specific plugins.</i>
 												<div class="panel panel-default" style="margin-top:10px;">
 													<div class="panel-heading">
-														$.plugin.init()
+														$.plugin.init(void)
 														<span class="pull-right">
 															Returns: <a href="http://api.jquery.com/Types/#Object" target="_blank">Object</a>
 														</span>
@@ -203,9 +219,7 @@
 														<table class="doc-table" width="100%">
 															<tr>
 																<td>
-																	<b>name</b></br>
-																	Type: <a href="http://api.jquery.com/Types/#String" target="_blank">String</a></br>
-																	Will return true if the plugin with the corresponding name exists, returns false otherwise.
+																	Will initialize all plugins that have been defined that have a defined data-plugin attribute.
 																</td>
 															</tr>
 														</table>
@@ -220,6 +234,11 @@
 													</div>
 													<div class="panel-body">
 														<table class="doc-table" width="100%">
+															<tr>
+																<td>
+																	Will initialize all plugins of the given name if they have a defined data-plugin attribute.
+																</td>
+															</tr>
 															<tr>
 																<td>
 																	<b>name</b></br>
@@ -262,7 +281,7 @@
 												<i></i>
 												<div class="panel panel-default" style="margin-top:10px;">
 													<div class="panel-heading">
-														$.plugin.addMethod()
+														$.plugin.addMethod(plugin, mName, mFunc)
 													</div>
 													<div class="panel-body">
 													</div>
