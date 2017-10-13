@@ -42,6 +42,10 @@
 	   });
 	   return o;
 	};
+	
+	/* Takes a value and tests if it is true or false. If it is undefined it returns undefined. */
+	$.toBoolUn = function(val) { return (val) ? (val === 'true') : undefined; };
+	
 })( jQuery );
 ;(function ( $ ) {
 	'use strict'
@@ -232,6 +236,7 @@
 			var buildIT = _setBuilder(object)
 			
 			/* Check to see if this plugin is extending an existing plugin. If so, get the plugin's defaults, extend the builder object and update the new plugin. */
+			//Throw an error if the extended plugin does not exist?
 			if (extend && typeof extend === 'string' && _objects[extend]) { 
 				_Obj = _objects[extend];
 				object.extendz = extend;
@@ -326,11 +331,16 @@
 	/* Sets default optons for the plugin with the given name. The plugin parameter string is the name of the plugin, the options parameter object are the new defaults. */
 	$.plugin.setDefaults = function(plugin, options) {
 		(plugin && typeof plugin === 'string' && _objects[plugin]) ? _extendDefaults(plugin, options) : console.error('Could Not Set Defaults! Please check your plugin name!');
-	}
+	};
+	
+	/*Gets the default options for the plugin with the given name. The plugin parameter string is the nme of the plugin. Returns the options as an object.*/
+	$.plugin.getDefaults = function(plugin) {
+		return (plugin && typeof plugin === 'string' && _objects[plugin]) ? _objects[plugin].defaults : {};
+	};
 	
 	/* Adds a method to a plugin with the given name. The plugin parameter string is the name of the plugin, the mName parameter is the string name of the function, mFunc is the function definition. */
 	$.plugin.addMethod = function(plugin, mName, mFunc) {
 		(plugin && typeof plugin === 'string' && _objects[plugin] && typeof mName === 'string' && typeof mFunc === 'function') ? _addMethod(plugin, mName, mFunc) : console.error('Could Not Add Method! Please check your plugin name!');
-	}
+	};
 	
 })( jQuery );
