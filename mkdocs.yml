@@ -1,0 +1,54 @@
+site_name: jQuery Plugin Factory
+site_description: The jQuery Plugin Factory plugin allowing for quick creation of jQuery plugins that emulate Object Oriented design principals.
+site_author: Deepworks
+copyright: Deepworks 2017-2023
+repo_url: https://github.com/deepworks-net/plugin-factory
+extra:
+    version: 1.1.0
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+theme:
+    name: material
+    features:
+        - navigation.instant
+        - navigation.tracking
+        # - navigation.tabs
+        # - navigation.tabs.sticky
+        - navigation.indexes
+        - navigation.top
+        - content.code.copy
+        - content.tabs
+        - content.tabs.link
+        - content.code.copy
+        - search.suggest
+        - search.highlight
+        - search.share
+    palette:
+      # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue 
+      accent: blue
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue 
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+'nav':
+    - 'Home': 'index.md'
+    - 'About':
+        - 'Contributing': 'about/contributing.md'
+        - 'Code of Conduct': 'about/code-of-conduct.md'
